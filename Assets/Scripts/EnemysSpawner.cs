@@ -6,20 +6,15 @@ public class EnemysSpawner : MonoBehaviour
 {
     [SerializeField] private Transform[] _spawnPoints;
     [SerializeField, Min(1)] private float _spawnDelay = 1;
-    [SerializeField] GameObject[] _enemyPrefabs;
 
-    [SerializeField] GameObject[] _arrivalPoint;
+    [SerializeField] private Enemy[] _enemyPrefabs;
+    [SerializeField] private Transform[] _arrivalPoints;
 
     private WaitForSeconds _delay;
 
-    private void Awake()
-    {
-        _delay = new WaitForSeconds(_spawnDelay);
-        
-    }
-
     private void Start()
     {
+        _delay = new WaitForSeconds(_spawnDelay);
         StartCoroutine(nameof(Spawn));
     }
 
@@ -28,9 +23,12 @@ public class EnemysSpawner : MonoBehaviour
         while(enabled)
         {
             Transform spawnPoint = _spawnPoints[Random.Range(0, _spawnPoints.Count())];
-            GameObject enemyUnit = Instantiate(_enemyPrefabs[0], spawnPoint.position, Quaternion.identity, transform.parent);
+            Enemy enemy = Instantiate(_enemyPrefabs[Random.Range(0, _enemyPrefabs.Count())], 
+                                        spawnPoint.position, 
+                                        Quaternion.identity, 
+                                        transform.parent);
 
-            enemyUnit.GetComponent<Enemy>().SetTarget(_arrivalPoint[Random.Range(0, _arrivalPoint.Count())].transform);
+            enemy.Init(_arrivalPoints[Random.Range(0, _arrivalPoints.Count())].position);
 
             yield return _delay;
         }
