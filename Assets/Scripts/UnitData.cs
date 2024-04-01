@@ -3,9 +3,7 @@ using UnityEngine;
 
 public class UnitData : ScriptableObject
 {
-    [SerializeField] private AnimatorController _animator;
-    [SerializeField] private float _speed;
+    [SerializeField] SpeedData _speedData;
 
-    public AnimatorController Animator => _animator; 
-    public float Speed => _speed;
+    public SpeedData SpeedData => _speedData;
 }
