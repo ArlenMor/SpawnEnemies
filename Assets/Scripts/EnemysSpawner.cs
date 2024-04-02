@@ -4,11 +4,10 @@ using UnityEngine;
 
 public class EnemysSpawner : MonoBehaviour
 {
-    [SerializeField] private Transform[] _spawnPoints;
     [SerializeField, Min(1)] private float _spawnDelay = 1;
 
-    [SerializeField] private Enemy[] _enemyPrefabs;
-    [SerializeField] private Transform[] _arrivalPoints;
+    [SerializeField] private Enemy _enemyPrefabs;
+    [SerializeField] private Transform _target;
 
     private WaitForSeconds _delay;
 
@@ -22,13 +21,12 @@ public class EnemysSpawner : MonoBehaviour
     {
         while(enabled)
         {
-            Transform spawnPoint = _spawnPoints[Random.Range(0, _spawnPoints.Count())];
-            Enemy enemy = Instantiate(_enemyPrefabs[Random.Range(0, _enemyPrefabs.Count())], 
-                                        spawnPoint.position, 
+            Enemy enemy = Instantiate(_enemyPrefabs, 
+                                        transform.position, 
                                         Quaternion.identity, 
                                         transform.parent);
 
-            enemy.Init(_arrivalPoints[Random.Range(0, _arrivalPoints.Count())].position);
+            enemy.Init(_target);
 
             yield return _delay;
         }
